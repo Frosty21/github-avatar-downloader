@@ -16,14 +16,14 @@ const GITHUB_TOKEN = process.env.DB_PASS;
 
 // checks if file exists
 if (!fs.existsSync('.env')) {
-  throw new Error('.env file check local folder');
+  throw new Error('missing .env file check local folder');
 }
 
 // checks if .env has the Local, User and Password variables
 console.log(GITHUB_LOCAL);
 if (GITHUB_USER === 'undefined' || GITHUB_TOKEN === 'undefined' || GITHUB_LOCAL ===
   'undefined') {
-  throw new Error('missing .env file missing information');
+  throw new Error('.env file missing information');
 }
 
 const folderPath = "avatars/";
