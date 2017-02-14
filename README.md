@@ -21,9 +21,7 @@ Any valid repo-owner + repo combination can be used, such as this:
 
 
 ```
-<div class="codehilite"><pre><code># node download_avatars.js nodejs node
-</code></pre></div>
-
+node download_avatars.js nodejs node
 ```
 
 ### Functional Requirements
