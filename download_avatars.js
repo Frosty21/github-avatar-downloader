@@ -62,6 +62,13 @@ function downloadImageByUrl(url, filePath) {
 getRepoContributors(repoOwner, repoName, function(err, result) {
   console.log("Errors:", err);
   var resultObj = JSON.parse(result.body);
+  console.log(resultObj);
+  if (resultObj.message === 'Bad credentials') {
+    throw console.log('Bad credentials Please enter correct GitHub User and Pass.');
+  }
+  if (resultObj.message === 'Not Found') {
+    throw console.log('Incorrect Repo or Username Please enter correct GitHub User or Repo.');
+  }
   resultObj.forEach((item) => downloadImageByUrl(item.avatar_url,
     folderPath + item.login + '.jpg'));
 });
