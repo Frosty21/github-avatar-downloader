@@ -1,0 +1,25 @@
+{
+  "name": "github-avatar-downloader",
+  "version": "1.0.0",
+  "description": "*This is the project for the second week of Lighthouse Labs*",
+  "main": "download_avatars.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frosty21/github-avatar-downloader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Frosty21/github-avatar-downloader/issues"
+  },
+  "homepage": "https://github.com/Frosty21/github-avatar-downloader#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {}
+}
