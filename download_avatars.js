@@ -10,8 +10,18 @@ require('dotenv').config();
 // Make sure you have your .env file in your local repo
 // with DB_HOST = LocalHost; DB_USER = <Github_Username>; DB_PASS = <GitHub_Password>
 // Link https://www.npmjs.com/package/dotenv
+const GITHUB_LOCAL = process.env.DB_LOCAL;
 const GITHUB_USER = process.env.DB_USER;
 const GITHUB_TOKEN = process.env.DB_PASS;
+
+if (GITHUB_USER === undefined && GITHUB_TOKEN === undefined) {
+  throw new Error('missing .env file check local folder');
+}
+if (GITHUB_USER !== undefined || GITHUB_TOKEN !== undefined || GITHUB_LOCAL !== undefined) {
+  throw new Error('missing .env file missing information');
+}
+
+console.log(GITHUB_USER);
 
 const folderPath = "avatars/";
 
@@ -48,7 +58,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 function downloadImageByUrl(url, filePath) {
   request.get(url)
     .on('error', function(err) {
-      throw console.log('Well, that didnt\' work', err);
+      throw new Error('Well, that didnt\' work', err);
     })
     .on('response', function(response) {
       console.log('Response Status Code: ', response.statusCode);
@@ -64,10 +74,10 @@ getRepoContributors(repoOwner, repoName, function(err, result) {
   var resultObj = JSON.parse(result.body);
   console.log(resultObj);
   if (resultObj.message === 'Bad credentials') {
-    throw console.log('Bad credentials Please enter correct GitHub User and Pass.');
+    throw new Error('Bad credentials Please enter correct GitHub User and Pass.');
   }
   if (resultObj.message === 'Not Found') {
-    throw console.log('Incorrect Repo or Username Please enter correct GitHub User or Repo.');
+    throw new Error('Incorrect Repo or Username Please enter correct GitHub User or Repo.');
   }
   resultObj.forEach((item) => downloadImageByUrl(item.avatar_url,
     folderPath + item.login + '.jpg'));
