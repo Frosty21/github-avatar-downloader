@@ -14,17 +14,19 @@ const GITHUB_LOCAL = process.env.DB_LOCAL;
 const GITHUB_USER = process.env.DB_USER;
 const GITHUB_TOKEN = process.env.DB_PASS;
 
-if (GITHUB_USER === undefined && GITHUB_TOKEN === undefined) {
+// checks if file exists
+if (!fs.existsSync('.env')) {
   throw new Error('missing .env file check local folder');
 }
-if (GITHUB_USER !== undefined || GITHUB_TOKEN !== undefined || GITHUB_LOCAL !== undefined) {
+
+// checks if .env has the Local, User and Password variables
+console.log(GITHUB_LOCAL);
+if (GITHUB_USER === 'undefined' || GITHUB_TOKEN === 'undefined' || GITHUB_LOCAL ===
+  'undefined') {
   throw new Error('missing .env file missing information');
 }
 
-console.log(GITHUB_USER);
-
 const folderPath = "avatars/";
-
 // Make new Folder 'avatar' and handles error if it exists
 var mkdirSync = function() {
   try {
@@ -53,8 +55,8 @@ function getRepoContributors(repoOwner, repoName, cb) {
 }
 
 // from getRepoContributors to downloadImageUrl the image url is checked
-// for which error reponse recieved (should be 200) then pipe the url to create the image
-// within the filepath
+// for which error reponse recieved (should be 200) then pipe the url to create
+// the image within the filepath
 function downloadImageByUrl(url, filePath) {
   request.get(url)
     .on('error', function(err) {
@@ -68,16 +70,21 @@ function downloadImageByUrl(url, filePath) {
 }
 
 //  From the get requestOptions in getRepoContributors to the anonymous function
-//  the result is JSON parsed for each item in resultObj to give avatar url and folderpath to send pic to
+//  the result is JSON parsed for each item in resultObj to give avatar url
+//  and folderpath to send pic to
+//  2 Error checks one for bad credentials and other for bad repo or username
 getRepoContributors(repoOwner, repoName, function(err, result) {
   console.log("Errors:", err);
   var resultObj = JSON.parse(result.body);
   console.log(resultObj);
   if (resultObj.message === 'Bad credentials') {
-    throw new Error('Bad credentials Please enter correct GitHub User and Pass.');
+    throw new Error(
+      'Bad credentials \nPlease enter correct GitHub User and Pass.');
   }
   if (resultObj.message === 'Not Found') {
-    throw new Error('Incorrect Repo or Username Please enter correct GitHub User or Repo.');
+    throw new Error(
+      'Incorrect Repo or Username \nPlease enter correct GitHub User or Repo.'
+    );
   }
   resultObj.forEach((item) => downloadImageByUrl(item.avatar_url,
     folderPath + item.login + '.jpg'));
